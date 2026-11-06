@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CleanCity - Waste Management</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f8f5;
+    color: #17332a;
+}
+
+/* Navbar */
+header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #ddd;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #16845b;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+/* Main Section */
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 30px auto;
+}
+
+.hero {
+    background: #16845b;
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 17px;
+}
+
+/* Dashboard */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #ddd;
+}
+
+.card h3 {
+    color: #16845b;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* Sections */
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 12px #ddd;
+}
+
+.section h2 {
+    margin-bottom: 18px;
+    color: #16845b;
+}
+
+/* Forms */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+button {
+    background: #16845b;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #106c49;
+}
+
+/* Schedule */
+.schedule-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.schedule-item strong {
+    color: #16845b;
+}
+
+/* Reports */
+.report-item {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status {
+    color: #d28b19;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    background: #17332a;
+    color: white;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+@media(max-width: 750px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 5px;
+        font-size: 13px;
+    }
+
+    .hero h1 {
+        font-size: 27px;
+    }
+}
+
+@media(max-width: 400px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<header>
+    <div class="logo">♻ CleanCity</div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#report">Report Issue</a>
+        <a href="#dashboard">Dashboard</a>
+    </nav>
+</header>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero" id="home">
+    <h1>Welcome to CleanCity 🌱</h1>
+    <p>
+        Smart Local Waste Collection Coordination System.
+        Keep your city clean and green!
+    </p>
+</section>
+
+<!-- Dashboard -->
+<section class="stats" id="dashboard">
+
+    <div class="card">
+        <h3>Collections</h3>
+        <p>12</p>
+        <small>This Month</small>
+    </div>
+
+    <div class="card">
+        <h3>Total Reports</h3>
+        <p id="totalReports">0</p>
+        <small>Submitted Issues</small>
+    </div>
+
+    <div class="card">
+        <h3>Pending Issues</h3>
+        <p id="pendingReports">0</p>
+        <small>Awaiting Action</small>
+    </div>
+
+    <div class="card">
+        <h3>Resolved Issues</h3>
+        <p id="resolvedReports">0</p>
+        <small>Completed</small>
+    </div>
+
+</section>
+
+<!-- Area Selection -->
+<section class="section">
+    <h2>📍 Select Your Area</h2>
+
+    <select id="area">
+        <option value="">Select Area</option>
+        <option>LPU Main Gate</option>
+        <option>LPU Uni Mall</option>
+        <option>LPU Admission Block</option>
+        <option>LPU Sports Complex</option>
+    </select>
+
+    <button onclick="saveArea()">Save Area</button>
+    <p id="areaMessage"></p>
+</section>
+
+<!-- Collection Schedule -->
+<section class="section" id="schedule">
+    <h2>📅 Collection Calendar</h2>
+
+    <div class="schedule-item">
+        <strong>Monday - Wet Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>
+    </div>
+
+    <div class="schedule-item">
+        <strong>Tuesday - Dry Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>
+    </div>
+
+    <div class="schedule-item">
+        <strong>Wednesday- Mixed Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>
+    </div>
+
+    <div class="schedule-item">
+        <strong>Thursday - Wet Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>
+    </div>
+
+    <div class="schedule-item">
+        <strong>Friday - Dry Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>
+    </div>
+
+    <div class="schedule-item">
+        <strong>Saturday - Mixed Waste</strong>
+        <p>Collection Time: 7:00 AM - 10:00 AM</p>a
+    </div>
+</section>
+
+<!-- Reminders -->
+<section class="section">
+    <h2>🔔 Notifications & Reminders</h2>
+
+    <p>🔔 Keep your wet waste ready for Monday.</p>
+    <br>
+    <p>♻ Separate wet and dry waste.</p>
+    <br>
+    <p>📢 Check collection timings regularly.</p>
+</section>
+
+<!-- Report Issue -->
+<section class="section" id="report">
+    <h2>🛠 Report a Waste Collection Issue</h2>
+
+    <form id="reportForm">
+
+        <label>Issue Type</label>
+        <select id="issueType" required>
+            <option value="">Select Issue</option>
+            <option>Missed Pickup</option>
+            <option>Overflowing Bin</option>
+            <option>Damaged Bin</option>
+        </select>
+
+        <label>Location</label>
+        <input type="text" id="location"
+        placeholder="Enter your location" required>
+
+        <label>Description</label>
+        <textarea id="description"
+        placeholder="Describe your issue"
+        required></textarea>
+
+        <button type="submit">Submit Report</button>
+
+    </form>
+</section>
+
+<!-- Report Status -->
+<section class="section">
+    <h2>📋 Complaint Status</h2>
+    <div id="reportList">
+        No complaints submitted yet.
+    </div>
+</section>
+
+</div>
+
+<footer>
+    <p>© 2026 CleanCity | Local Waste Collection Coordination</p>
+    <p>Let's Make Our City Clean & Green 🌱</p>
+</footer>
+
+<script>
+
+// Save Selected Area
+function saveArea() {
+
+    let area = document.getElementById("area").value;
+
+    if(area === "") {
+        alert("Please select your area!");
+        return;
+    }
+
+    localStorage.setItem("selectedArea", area);
+
+    document.getElementById("areaMessage").innerText =
+    "Your selected area: " + area;
+
+}
+
+// Load saved area
+let savedArea = localStorage.getItem("selectedArea");
+
+if(savedArea) {
+    document.getElementById("area").value = savedArea;
+    document.getElementById("areaMessage").innerText =
+    "Your selected area: " + savedArea;
+}
+
+// Store Reports
+let reports = JSON.parse(
+    localStorage.getItem("reports") || "[]"
+);
+
+// Submit Report
+document.getElementById("reportForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    let issue = document.getElementById("issueType").value;
+    let location = document.getElementById("location").value;
+    let description = document.getElementById("description").value;
+
+    let report = {
+        issue: issue,
+        location: location,
+        description: description,
+        status: "Pending",
+        id: Date.now()
+    };
+
+    reports.push(report);
+
+    localStorage.setItem(
+        "reports",
+        JSON.stringify(reports)
+    );
+
+    alert("Your complaint has been submitted!");
+
+    document.getElementById("reportForm").reset();
+
+    displayReports();
+
+});
+
+// Display Reports
+function displayReports() {
+
+    let list = document.getElementById("reportList");
+
+    list.innerHTML = "";
+
+    let pending = 0;
+    let resolved = 0;
+
+    if(reports.length === 0) {
+        list.innerHTML = "No complaints submitted yet.";
+    }
+
+    reports.forEach(function(report) {
+
+        let div = document.createElement("div");
+        div.className = "report-item";
+
+        let title = document.createElement("strong");
+        title.textContent = report.issue;
+
+        let location = document.createElement("p");
+        location.textContent = "Location: " + report.location;
+
+        let description = document.createElement("p");
+        description.textContent = report.description;
+
+        let status = document.createElement("p");
+        status.className = "status";
+        status.textContent = "Status: " + report.status;
+
+        div.append(title, location, description, status);
+        list.appendChild(div);
+
+        if(report.status === "Pending") {
+            pending++;
+        }
+
+        if(report.status === "Resolved") {
+            resolved++;
+        }
+
+    });
+
+    document.getElementById("totalReports").innerText =
+    reports.length;
+
+    document.getElementById("pendingReports").innerText =
+    pending;
+
+    document.getElementById("resolvedReports").innerText =
+    resolved;
+
+}
+
+// Load Reports
+displayReports();
+
+</script>
+
+</body>
+</html>
